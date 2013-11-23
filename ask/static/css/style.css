@@ -1,0 +1,19 @@
+
+body
+{
+	background-color:#DDEEEE;
+}
+
+blockquote { color:green; }
+
+#questions_row h1 { font-family:Georgia; font-size:20px; }
+
+#questions_row p { font-family:Georgia; font-size:16px; }
+
+#questions_row .btn-group { margin-bottom:5px; }
+
+.form-inline { margin-top:15px; }
+
+.hovar:hover {
+    cursor:pointer;
+}
