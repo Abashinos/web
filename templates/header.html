@@ -7,7 +7,13 @@
                     <li><a href="/answers">Answers</a></li>
                 </ul>
                 <ul class="nav pull-right">
-                    <li style="text-align:right"><a href="login.html"> Log in here </a></li>
+                {% if not user.is_authenticated %}
+                    <li style="text-align:right"><a href="/login?next={{ request.get_full_path }}">Log in </a></li>
+                    <li style="text-align:right"><a href="/signup?next={{ request.get_full_path }}">Sign up</a></li>
+                {% else %}
+                    <li><a href="/logout">Log out</a></li>
+                    <li>{{ user.username }}</li>
+                {% endif %}
                 </ul>
 			</nav>
 </div>

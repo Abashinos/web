@@ -15,6 +15,6 @@ urlpatterns = patterns('',
                        url(r'^ans_correct$', views.ans_correct),
                        url(r'^answers', views.answers),
                        url(r'^users', views.users),
-
+                       url(r'^signup', views.signup),
 
 )

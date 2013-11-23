@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<title> Ask Abashin </title>
+        {% load staticfiles %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" media="screen"/>
+		<link rel="stylesheet" href="{% static "css/style.css" %}"/>
+        <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/jquery.js"%} "> </script>
+		<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="container-fluid">
+        <div class="container-fluid span9">
+
+            <div class="row-fluid span10">
+                <h4> Sign up here </h4>
+            </div>
+            <form class="form-horizontal" role="form" method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if regform.username.errors %}
+            <div class="form-group alert-error row-fluid" style="margin-top: 5px">
+            {% else %}
+            <div class="form-group row-fluid" style="margin-top: 5px">
+            {% endif %}
+
+                <label for="{{ regform.username.id_for_label }}"
+                       class="control-label span4">{{ regform.username.label }} &nbsp;</label>
+
+                <div>
+                    <input id="{{ regform.username.id_for_label }}" class="form-control span6"
+                           maxlength="{{ regform.username.max_length }}" name="username" type="text"
+                           placeholder="Enter a username" value="{{ regform.username.value|default_if_none:"" }}">
+                </div>
+
+                <div class="alert-error">
+                    {{ regform.username.errors|first }}
+                </div>
+            </div>
+
+            {% if regform.first_name.errors %}
+            <div class="form-group alert-error row-fluid" style="margin-top: 5px">
+            {% else %}
+            <div class="form-group row-fluid" style="margin-top: 5px">
+            {% endif %}
+
+                <label for="{{ regform.first_name.id_for_label }}"
+                       class="control-label span4">{{ regform.first_name.label }}&nbsp;</label>
+
+                <div>
+                    <input id="{{ regform.first_name.id_for_label }}" class="form-control span6"
+                           maxlength="{{ regform.first_name.max_length }}" name="first_name" type="text"
+                           placeholder="Enter your first name" value="{{ regform.first_name.value|default_if_none:"" }}">
+                </div>
+
+                <div class="alert-error">
+                    {{ regform.first_name.errors|first }}
+                </div>
+            </div>
+
+            {% if reg_form.last_name.errors %}
+            <div class="form-group alert-error row-fluid" style="margin-top: 5px">
+            {% else %}
+            <div class="form-group row-fluid" style="margin-top: 5px">
+            {% endif %}
+
+                <label for="{{ regform.last_name.id_for_label }}"
+                       class="control-label span4">{{ regform.last_name.label }}&nbsp;</label>
+
+                <div>
+                    <input id="{{ regform.last_name.id_for_label }}" class="form-control span6"
+                           maxlength="{{ regform.last_name.max_length }}" name="last_name" type="text"
+                           placeholder="Enter your last name" value="{{ regform.last_name.value|default_if_none:"" }}">
+                </div>
+                <div class="alert-error">
+                    {{ regform.last_name.errors|first }}
+                </div>
+            </div>
+
+            {% if reg_form.email.errors %}
+            <div class="form-group alert-error row-fluid" style="margin-top: 5px">
+            {% else %}
+            <div class="form-group row-fluid" style="margin-top: 5px">
+            {% endif %}
+                <label for="{{ regform.email.id_for_label }}"
+                       class="control-label span4">{{ regform.email.label }}&nbsp;</label>
+
+                <div>
+                    <input id="{{ regform.email.id_for_label }}" class="form-control span6"
+                           maxlength="{{ regform.email.max_length }}" name="email" type="text"
+                           placeholder="Enter a real email address" value="{{ regform.email.value|default_if_none:"" }}">
+                </div>
+                <div class="alert-error">
+                    {{ regform.email.errors|first }}
+                </div>
+            </div>
+
+            {% if regform.password1.errors %}
+            <div class="form-group alert-error row-fluid" style="margin-top: 5px">
+            {% else %}
+            <div class="form-group row-fluid" style="margin-top: 5px">
+            {% endif %}
+
+                <label for="{{ regform.password1.id_for_label }}"
+                       class="control-label span4">{{ regform.password1.label }}&nbsp;</label>
+
+                <div>
+                    <input id="{{ regform.password1.id_for_label }}" class="form-control span6"
+                           maxlength="{{ regform.password1.max_length }}" name="password1" type="password" placeholder="Your password goes here">
+                </div>
+                <div class="alert-error">
+                    {{ regform.password1.errors|first }}
+                </div>
+            </div>
+
+            {% if regform.password2.errors %}
+            <div class="form-group alert-error row-fluid" style="margin-top: 5px">
+            {% else %}
+            <div class="form-group row-fluid" style="margin-top: 5px">
+            {% endif %}
+
+                <label for="{{ regform.password2.id_for_label }}"
+                       class="control-label span4">{{ regform.password2.label }}&nbsp;</label>
+
+                <div>
+                    <input id="{{ regform.password2.id_for_label }}" class="form-control span6"
+                           maxlength="{{ regform.password2.max_length }}" name="password2" type="password" placeholder="{{ regform.password2.help_text }}">
+                </div>
+                <div class="error_message">
+                    {{ regform.password2.errors|first }}
+                </div>
+            </div>
+
+            <div class="form-group row-fluid">
+                <div class="offset7 span2" style="padding-left: 12px">
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </div>
+            </div>
+        </form>
+        </div>
+        {% include "sidebar.html" %}
+    </div>
+</body>
+</html>

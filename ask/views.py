@@ -2,12 +2,14 @@
 import datetime
 from math import ceil
 import random
+from django.contrib.auth import authenticate
 from django.core.context_processors import csrf
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 from django.template import loader, Context, RequestContext
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.utils.datastructures import MultiValueDictKeyError
+from ask.forms import RegistrationForm
 from scripts import *
 
 
@@ -32,6 +34,30 @@ def index(request):
         "pages": allpages}
 
     return render(request, "index.html", c)
+
+def signup(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect("/")
+    if not request.method == 'POST':
+        regform = RegistrationForm()
+    else:
+        regform = RegistrationForm(request.POST)
+        if regform.is_valid():
+            _user = regform.save()
+            _user = authenticate(username=request.POST['username'], password=request.POST['password2'])
+         #   login(request, _user)
+
+        try:
+            redir = request.GET['next']
+        except:
+            raise Http404
+        return HttpResponseRedirect(redir)
+
+    usrs = get_latest_users()
+    return render(request, "registration.html", {
+        'regform': regform,
+        'users': usrs
+    })
 
 
 def ask(request):
