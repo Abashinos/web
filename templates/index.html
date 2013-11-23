@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title> Ask Abashin </title>
+        {% load staticfiles %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" media="screen"/>
+		<link rel="stylesheet" href="{% static "css/style.css" %}"/>
+        <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/jquery.js"%} "> </script>
+		<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+	</head>
+	<body>
+    {% include "header.html" %}
+    <div class="container-fluid">
+        <div class="container-fluid span9">
+		    <div class="tabbable tabs table-bordered">
+		        <ul id="navtabs" class="nav nav-tabs table-bordered" style="margin-top:5px">
+                    {% if page == "" %}
+			        <li class="active"><a href="/">New</a></li>
+			        <li><a href="/qpopular">Popular</a></li>
+                    {% elif page == "qpopular" %}
+                    <li><a href="/">New</a></li>
+			        <li class="active"><a href="/qpopular">Popular</a></li>
+                    {% elif page == "answers" %}
+                    <li class="active"><a href="/answers">New</a></li>
+			        <li><a href="/apopular">Popular</a></li>
+                    {% elif page == "apopular" %}
+                    <li><a href="/answers">New</a></li>
+			        <li class="active"><a href="/apopular">Popular</a></li>
+                    {% endif %}
+                    <li class="pull-right" style="color:Green"><a class="btn" data-toggle="modal" href="#AskModal">Ask</a></li>
+                </ul>
+                <div class="tab-content">
+                    {% if page == "" or page == "qpopular" %}
+
+			        <div id="pane1" class="tab-pane active">
+
+                        <div id="questions_row" class="row-fluid">
+                            {% for question in questions %}
+                            <div class="container-fluid table-bordered">
+                                <div class="container-fluid span2" style="text-align:center">
+
+                                    <div style="margin-top:5px; ">
+                                        <a href="#"><i class="icon-chevron-up"></i></a>
+                                        <div id="rating">
+                                        <h4 style="font-family:Arial">{{ question.rating }}</h4>
+                                        </div>
+                                        <a href="#"><i class="icon-chevron-down"></i></a>
+                                    </div>
+                                </div>
+                                <div class="container-fluid span10">
+                                    <h4>{{ question.header }}</h4>
+                                    <p class="muted"> {{ question.contents | truncatewords:7 }}</p>
+
+                                    <div class="row-fluid">
+                                        <label class="pull-right"  style="font-size:12px"><strong>Asked by:</strong> <a href="users?num={{ question.author.id }}">{{ question.author.username }}</a></label>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <a href="/answers?qnum={{ question.id }}">Read answers ({{ question.answer_set.count }})</a>
+                                        <label class="muted pull-right" style="font-size:12px">Date: {{ question.creation_date }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <footer class="pagination text-center">
+                            <ul>
+                            <li><a href="/{{ page }}?qpage=1">&laquo;</a></li>
+                            {% for pagenum in pages %}
+                            <li class="{% if pagenum == current_page %}active{% endif %}"><a href="/{{ page }}?qpage={{ pagenum }}">
+                                {{ pagenum }} <span class="sr-only"></span></a></li>
+                            {% endfor %}
+                            <li><a href="/{{ page }}?qpage={{ pages_count }}">&raquo;</a></li>
+                            </ul>
+                        </footer>
+                    </div>
+                    <div id="qpopular" class="tab-pane">
+
+                    </div>
+
+                    {% elif page == "answers" or page == "apopular" %}
+                    <div id="pane1" class="tab-pane active">
+
+                        <div id="questions_row" class="row-fluid">
+                            {% for answer in answers %}
+                            <div class="{% if answer.correct %} alert-success {% endif %}container-fluid table-bordered">
+
+                                <div class="container-fluid span2" style="text-align:center">
+
+                                    <div style="margin-top:5px; ">
+                                        <a href="#"><i class="icon-chevron-up"></i></a>
+                                        <div id="rating">
+                                        <h3 style="font-family:Arial">{{ answer.rating }}</h3>
+                                        </div>
+                                        <a href="#"><i class="icon-chevron-down"></i></a>
+                                    </div>
+
+                                </div>
+                                <div class="container-fluid span10">
+                                    <div class="row-fluid">
+                                    <p>{{ answer.contents }}</p>
+
+                                        <div style="text-align: right">
+
+                                            <a  href="/ans_correct?a_id={{ answer.id }}">
+                                            {% if not answer.correct %}
+                                                <i class="icon-ok"></i>
+                                            {% else %}
+                                                <i class="icon-remove"></i>
+                                            {% endif %}
+                                            </a>
+                                            <a href="answers?qnum={{ answer.question_id }}">Link to question</a>
+                                            <p> <strong>Answer by:</strong> <a href="users?num={{ answer.author.id }}">{{ answer.author }} </a></p>
+                                            <p class="muted"> {{ answer.date }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <footer class="pagination text-center">
+                            <ul>
+                            <li><a href="/{{ page }}?apage=1">&laquo;</a></li>
+                            {% for pagenum in pages %}
+                            <li class="{% if pagenum == current_page %}active{% endif %}"><a href="/{{ page }}?apage={{ pagenum }}">
+                                {{ pagenum }} <span class="sr-only"></span></a></li>
+                            {% endfor %}
+                            <li><a href="/{{ page }}?apage={{ pages_count }}">&raquo;</a></li>
+                            </ul>
+                        </footer>
+                    </div>
+                    <div id="apopular" class="tab-pane">
+
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+	    </div>
+        {% include "sidebar.html" %}
+    </div>
+
+	</body>
+
+    {% include "askmodal.html" %}
+</html>

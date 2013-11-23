@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title> Ask Abashin </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+		<link rel="stylesheet" href="css/style.css"/>
+        <script type="text/javascript" src="js/cloud.js"></script>
+        <script type="text/javascript" src="js/swfobject.js"></script>
+	</head>
+	<body>
+    <div class="navbar navbar-inverse navbar-static-top">
+			<nav class="navbar-inner">
+				<ul class="nav">
+                    <li class="brand">Ask Abashin, if you dare</li>
+                    <li class="divider-vertical" />
+                </ul>
+                <ul class="nav pull-right">
+                    <li style="text-align:right"><a href="login.html"> Log in here </a></li>
+                </ul>
+			</nav>
+	</div>
+    <div class="container-fluid">
+        <div class="container-fluid span9">
+		    <div class="tabbable tabs table-bordered">
+		        <ul class="nav nav-tabs table-bordered" style="margin-top:5px">
+			        <li class="active"><a href="#pane1" data-toggle="tab">New</a></li>
+			        <li><a href="#pane2" data-toggle="tab">Popular</a></li>
+			        <li class="pull-right" style="color:Green"><a class="btn" data-toggle="modal" href="#myModal">Ask</a></li>
+                </ul>
+                <div class="tab-content">
+			        <div id="pane1" class="tab-pane active">
+                        <div class="row-fluid" id="questions_row">
+                            <div class="container-fluid table-bordered">
+                                <div class="container-fluid span2" style="text-align:center">
+
+                                    <div style="margin-top:5px; ">
+                                        <a href="#"><i class="icon-chevron-up"></i></a>
+                                        <div id="rating">
+                                        <h3 style="font-family:Arial">0000</h3>
+                                        </div>
+                                        <a href="#"><i class="icon-chevron-down"></i></a>
+                                    </div>
+                                </div>
+                                <div class="container-fluid span10">
+                                    <h1>I accidentally a bottle of Coca-Cola!</h1>
+                                    <p class="muted"> You accidentally what?</p>
+                                    <div class="btn-group">
+                                      <button class="btn">Read answers</button>
+                                      <button class="btn">Answer</button>
+                                    </div>
+                                    <div class="btn-group pull-right">
+                                      <button class="btn btn-info">Like</button>
+                                      <button class="btn btn-danger">Dislike</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid table-bordered">
+                                <div class="container-fluid span2" style="text-align:center">
+                                    <div style="margin-top:5px; ">
+                                        <a href="#"><i class="icon-chevron-up"></i></a>
+                                        <div id="Div1">
+                                        <h3 style="font-family:Arial">0000</h3>
+                                        </div>
+                                        <a href="#"><i class="icon-chevron-down"></i></a>
+                                    </div>
+                                </div>
+                                <div class="container-fluid span10">
+                                    <h1>I accidentally a bottle of Coca-Cola!</h1>
+                                    <p class="muted"> You accidentally what?</p>
+                                    <div class="btn-group">
+                                      <button class="btn">Read answers</button>
+                                      <button class="btn">Answer</button>
+                                    </div>
+                                    <div class="btn-group pull-right">
+                                      <button class="btn btn-info">Like</button>
+                                      <button class="btn btn-danger">Dislike</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid table-bordered">
+                                <div class="container-fluid span2" style="text-align:center">
+                                    <div style="margin-top:5px; ">
+                                        <a href="#"><i class="icon-chevron-up"></i></a>
+                                        <div id="Div2">
+                                        <h3 style="font-family:Arial">0000</h3>
+                                        </div>
+                                        <a href="#"><i class="icon-chevron-down"></i></a>
+                                    </div>
+                                </div>
+                                <div class="container-fluid span10">
+                                    <h1>I accidentally a bottle of Coca-Cola!</h1>
+                                    <p class="muted"> You accidentally what?</p>
+                                    <div class="btn-group">
+                                      <button class="btn">Read answers</button>
+                                      <button class="btn">Answer</button>
+                                    </div>
+                                    <div class="btn-group pull-right">
+                                      <button class="btn btn-info">Like</button>
+                                      <button class="btn btn-danger">Dislike</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="pane2" class="tab-pane">
+                    </div>
+                </div>
+            </div>
+	    </div>
+        <div class="container-fluid span3">
+            <form class="navbar-form">
+                <input type="text" class="span3" placeholder="Search"/>
+                <label class="muted"> Tags: </label>
+            </form>  
+            <div id="tags">
+                <a class="tag-size-1" href="http://tp.mail.ru/tag/ABBYY/">ABBYY</a>
+                <a class="tag-size-10" href="http://tp.mail.ru/tag/C++/">C++</a>
+                <a class="tag-size-2" href="http://tp.mail.ru/tag/django/">django</a>
+                <a class="tag-size-1" href="http://tp.mail.ru/tag/Google/"style="font-size:10px;>Google</a>
+                <a class="tag-size-5" href="http://tp.mail.ru/tag/HighLoad/">HighLoad</a>
+                <a class="tag-size-9" href="http://tp.mail.ru/tag/Java/">Java</a>
+                <a class="tag-size-6" href="http://tp.mail.ru/tag/Mail.Ru/">Mail.Ru</a>
+                <a class="tag-size-4" href="http://tp.mail.ru/tag/Microsoft/" style="font-size:21px;>Microsoft</a>
+                <a class="tag-size-2" href="http://tp.mail.ru/tag/Python/">Python</a>
+                <a class="tag-size-2" href="http://tp.mail.ru/tag/rcc/" style="font-size:19px;>rcc</a>
+                <a class="tag-size-2" href="http://tp.mail.ru/tag/UML/">UML</a>
+                <a class="tag-size-4" href="http://tp.mail.ru/tag/web-технологии/">web-технологии</a>
+                <a href="http://tp.mail.ru/tag/C++/" style="font-size:19px;">C++</a>
+                <a href="http://tp.mail.ru/tag/django/" style="font-size:10px;">django</a>
+                <a href="http://tp.mail.ru/tag/Google/" style="font-size:21px;">google</a>
+                <a href="http://tp.mail.ru/tag/HighLoad/" style="font-size:10px;">HighLoad</a>
+                <a href="http://tp.mail.ru/tag/web-технологии/" style="font-size:21px;">WEB</a>
+                <a href="http://tp.mail.ru/tag/Python/" style="font-size:10px;">Python</a>
+            </div> 
+        </div>
+       
+    </div>
+    
+        <div class="modal fade hide in" id="myModal" style="display: none; ">
+          <div class="modal-header navbar navbar-static-top">
+            <div class="navbar-inner">
+                <ul class="nav">
+                    <li><a class="brand"> Ask a question here </a></li>
+                </ul>
+            </div>
+          </div>
+          <div class="container modal-body">
+                  <div class="form-inline">
+                      <div class="form-group">
+                        <label class="offset1 span2" style="margin-top:5px; font-family:Georgia; font-size:16px; text-align:right"> Title &nbsp;</label> 
+                        <input type="text" class="inline span4" placeholder="Enter your title here..." />
+                      </div>
+                      <div class="form-group">
+                        <label class="offset1 span2" style="margin-top:5px; font-family:Georgia; font-size:16px; text-align:right"> Question &nbsp;</label> 
+                        <textarea rows="4" class="inline span4" style="resize:none" placeholder="Enter your question here..."></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label class="offset1 span2" style="margin-top:5px; font-family:Georgia; font-size:16px; text-align:right"> Tags &nbsp;</label> 
+                        <input type="text" class="inline span4" placeholder="Type something…" />
+                      </div>
+                  </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn btn-primary" style="float:left">ASK</a>
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+          </div>
+        </div>
+
+		<script src="js/jquery.js"> </script>
+		<script src="js/bootstrap.min.js"></script> 
+	</body>
+
+        
+</html>
