@@ -2,7 +2,7 @@
 import datetime
 from math import ceil
 import random
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.core.context_processors import csrf
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
@@ -11,7 +11,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.utils.datastructures import MultiValueDictKeyError
 from ask.forms import RegistrationForm
 from scripts import *
-
+from django.contrib.auth.views import login as djlogin
+from django.contrib.auth.views import logout as djlogout
 
 def index(request):
 
@@ -27,7 +28,7 @@ def index(request):
 
     c = {
         "questions": qstns,
-        "users": usrs,
+        "uusers": usrs,
         "pages_count": pagecount,
         "page": "",
         "current_page": qpage,
@@ -45,19 +46,42 @@ def signup(request):
         if regform.is_valid():
             _user = regform.save()
             _user = authenticate(username=request.POST['username'], password=request.POST['password2'])
-         #   login(request, _user)
+            login(request, _user)
+            try:
+                redir = request.GET['next']
+            except:
+                raise Http404
+            return HttpResponseRedirect(redir)
 
-        try:
-            redir = request.GET['next']
-        except:
-            raise Http404
-        return HttpResponseRedirect(redir)
+        else:
+            usrs = get_latest_users()
+            return render(request, "registration.html", {
+                                    'regform': regform,
+                                    'uusers': usrs
+                                    })
 
     usrs = get_latest_users()
     return render(request, "registration.html", {
         'regform': regform,
-        'users': usrs
+        'uusers': usrs
     })
+
+
+def log_in(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+
+    usrs = get_latest_users()
+    c = { 'uusers': usrs }
+
+    return djlogin(request, extra_context=c)
+
+
+def log_out(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+
+    return djlogout(request)
 
 
 def ask(request):
@@ -66,10 +90,10 @@ def ask(request):
         qform = QuestionForm(request.POST)
 
         if qform.is_valid():
-            #user = request.user
+            usr = request.user
             hdr = qform.cleaned_data['header']
             cnts = qform.cleaned_data['contents']
-            qstn = Question.objects.create(header=hdr, contents=cnts, author_id = random.randint(1, 10000), rating=0, creation_date=datetime.datetime.now())
+            qstn = Question.objects.create(header=hdr, contents=cnts, author= usr, rating=0, creation_date=datetime.datetime.now())
             qstn.save()
             return HttpResponseRedirect("/index")
         else:
@@ -90,7 +114,7 @@ def questions_by_rating(request):
 
     c = {
         "questions": qstns,
-        "users": usrs,
+        "uusers": usrs,
         "pages_count": pagecount,
         "page": "qpopular",
         "current_page": qpage,
@@ -104,16 +128,17 @@ def answer(request):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
+            usr = request.user
             conts = form.cleaned_data['contents']
             qid = int(form.data['qid'])
-            answr = Answer.objects.create(contents=conts, author_id=random.randint(1,10000), question_id=qid, rating=0, date=datetime.datetime.now())
+            answr = Answer.objects.create(contents=conts, author=usr, question_id=qid, rating=0, date=datetime.datetime.now())
             answr.save()
             redir = request.META['HTTP_REFERER']
             return HttpResponseRedirect(redir)
         else:
-            return render(request, 'errors.html', err)
+            return render(request, 'registration/../templates/errors.html', err)
     else:
-        return render(request, 'errors.html', err)
+        return render(request, 'registration/../templates/errors.html', err)
 
 
 def answers(request):
@@ -132,7 +157,7 @@ def answers(request):
 
         c = {
         "answers": answs,
-        "users": usrs,
+        "uusers": usrs,
         "pages_count": pagecount,
         "page": "answers",
         "current_page": apage,
@@ -148,7 +173,7 @@ def answers(request):
 
         t = loader.get_template("answers.html")
         c = RequestContext(request, {"question": qstn,
-                     "users": usrs,
+                     "uusers": usrs,
                      "answers": answs})
 
         return HttpResponse(t.render(c))
@@ -167,7 +192,7 @@ def answers_by_rating(request):
 
     c = {
         "answers": answs,
-        "users": usrs,
+        "uusers": usrs,
         "pages_count": pagecount,
         "page": "apopular",
         "current_page": apage,
@@ -192,8 +217,8 @@ def users(request):
 
             allpages = range(page_left, page_right + 1)
 
-            c = {"user": usr,
-                "users": usrs,
+            c = {"uuser": usr,
+                "uusers": usrs,
                 "questions": qstns,
                 "pages_count": pagecount,
                 "page": "questions",
@@ -216,8 +241,8 @@ def users(request):
 
             allpages = range(page_left, page_right + 1)
 
-            c = {"user": usr,
-                "users": usrs,
+            c = {"uuser": usr,
+                "uusers": usrs,
                 "answers": answs,
                 "pages_count": pagecount,
                 "page": "answers",

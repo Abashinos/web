@@ -25,9 +25,9 @@
             </div>
             <div class="row-fluid table-bordered">
                 <p class="muted" style="font-size:16px">Latest registered users:</p>
-                {% for user in users %}
+                {% for uuser in uusers %}
                 <div>
-                    <a href="users?num={{ user.id }}">{{ user.username }}</a>
+                    <a href="users?num={{ uuser.id }}">{{ uuser.username }}</a>
                 </div>
                 {% endfor %}
             </div>

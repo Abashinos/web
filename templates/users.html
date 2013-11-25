@@ -11,19 +11,7 @@
 		<script src="{% static "js/bootstrap.min.js" %}"></script>
 	</head>
 	<body>
-    <div class="navbar navbar-inverse navbar-static-top">
-			<nav class="navbar-inner">
-				<ul class="nav">
-                    <li class="brand">Ask Abashin, if you dare</li>
-                    <li class="divider-vertical" />
-                    <li><a href="/">Questions</a></li>
-                    <li><a href="/answers">Answers</a></li>
-                </ul>
-                <ul class="nav pull-right">
-                    <li style="text-align:right"><a href="login.html"> Log in here </a></li>
-                </ul>
-			</nav>
-	</div>
+    {% include "header.html" %}
     <div class="container-fluid">
         <h2>User page</h2>
     </div>
@@ -32,12 +20,12 @@
             <div class="row-fluid">
 
                 <div class="well">
-                    <h4>{{ user.username }}
-                        ({{ user.first_name }} {{ user.last_name }})</h4>
+                    <h4>{{ uuser.username }}
+                        ({{ uuser.first_name }} {{ uuser.last_name }})</h4>
                     <div class="table-bordered table-hover">
-                        <p><strong>Date joined:</strong> {{ user.date_joined }}</p>
-                        <p>Questions: {{ user.question_set.count }}</p>
-                        <p>Answers: {{ user.answer_set.count }}</p>
+                        <p><strong>Date joined:</strong> {{ uuser.date_joined }}</p>
+                        <p>Questions: {{ uuser.question_set.count }}</p>
+                        <p>Answers: {{ uuser.answer_set.count }}</p>
                     </div>
                 </div>
             </div>
@@ -45,11 +33,11 @@
                 <div class="tabbable tabs table-bordered">
     		        <ul id="navtabs" class="nav nav-tabs table-bordered" style="margin-top:5px">
                         {% if page == "questions" %}
-			            <li class="active"><a href="users?num={{ user.id }}&tab=questions">Questions</a></li>
-			            <li><a href="users?num={{ user.id }}&tab=answers">Answers</a></li>
+			            <li class="active"><a href="users?num={{ uuser.id }}&tab=questions">Questions</a></li>
+			            <li><a href="users?num={{ uuser.id }}&tab=answers">Answers</a></li>
                         {% else %}
-                        <li><a href="users?num={{ user.id }}&tab=questions">Questions</a></li>
-			            <li class="active"><a href="users?num={{ user.id }}&tab=answers">Answers</a></li>
+                        <li><a href="users?num={{ uuser.id }}&tab=questions">Questions</a></li>
+			            <li class="active"><a href="users?num={{ uuser.id }}&tab=answers">Answers</a></li>
                         {% endif %}
                     </ul>
                     <div class="tab-content">
@@ -79,12 +67,12 @@
                     </div>
                     <footer class="pagination text-center">
                             <ul>
-                            <li><a href="/users?num={{ user.id }}&tab={{ page }}&qpage=1">&laquo;</a></li>
+                            <li><a href="/users?num={{ uuser.id }}&tab={{ page }}&qpage=1">&laquo;</a></li>
                             {% for pagenum in pages %}
-                            <li class="{% if pagenum == current_page %}active{% endif %}"><a href="/users?num={{ user.id }}&tab={{ page }}&qpage={{ pagenum }}">
+                            <li class="{% if pagenum == current_page %}active{% endif %}"><a href="/users?num={{ uuser.id }}&tab={{ page }}&qpage={{ pagenum }}">
                                 {{ pagenum }} <span class="sr-only"></span></a></li>
                             {% endfor %}
-                            <li><a href="/users?num={{ user.id }}&tab={{ page }}&qpage={{ pages_count }}">&raquo;</a></li>
+                            <li><a href="/users?num={{ uuser.id }}&tab={{ page }}&qpage={{ pages_count }}">&raquo;</a></li>
                             </ul>
                     </footer>
                     {% else %}
@@ -126,12 +114,12 @@
                     </div>
                     <footer class="pagination text-center">
                             <ul>
-                            <li><a href="/users?num={{ user.id }}&tab={{ page }}&apage=1">&laquo;</a></li>
+                            <li><a href="/users?num={{ uuser.id }}&tab={{ page }}&apage=1">&laquo;</a></li>
                             {% for pagenum in pages %}
-                            <li class="{% if pagenum == current_page %}active{% endif %}"><a href="/users?num={{ user.id }}&tab={{ page }}&apage={{ pagenum }}">
+                            <li class="{% if pagenum == current_page %}active{% endif %}"><a href="/users?num={{ uuser.id }}&tab={{ page }}&apage={{ pagenum }}">
                                 {{ pagenum }} <span class="sr-only"></span></a></li>
                             {% endfor %}
-                            <li><a href="/users?num={{ user.id }}&tab={{ page }}&apage={{ pages_count }}">&raquo;</a></li>
+                            <li><a href="/users?num={{ uuser.id }}&tab={{ page }}&apage={{ pages_count }}">&raquo;</a></li>
                             </ul>
                     </footer>
                     {% endif %}

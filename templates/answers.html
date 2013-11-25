@@ -35,7 +35,9 @@
                             </div>
                         </div>
                         <div class="row-fluid">
+                            {% if user.is_authenticated %}
                             <a data-toggle="modal" href="#AnsModal">Answer</a>
+                            {% endif %}
                             <p class="pull-right"> <strong>Question by:</strong> <a href="users?num={{ question.author.id }}"> {{ question.author }}</a></p>
                         </div>
                     </div>
@@ -60,15 +62,15 @@
                                     <p>{{ answer.contents }}</p>
 
                                         <div style="text-align: right">
-
-                                            <a  href="/ans_correct?a_id={{ answer.id }}">
+                                            {% if user.is_authenticated and question.author_id == user.id %}
+                                            <a href="/ans_correct?a_id={{ answer.id }}">
                                             {% if not answer.correct %}
                                                 <i class="icon-ok"></i>
                                             {% else %}
                                                 <i class="icon-remove"></i>
                                             {% endif %}
                                             </a>
-                                            <a href="answers?qnum={{ answer.question_id }}">Link to question</a>
+                                            {% endif %}
                                             <p> <strong>Answer by:</strong> <a href="users?num={{ answer.author.id }}">{{ answer.author }} </a></p>
                                             <p class="muted"> {{ answer.date }}</p>
                                         </div>

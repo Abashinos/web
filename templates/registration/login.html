@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<title> Ask Abashin </title>
+        {% load staticfiles %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" media="screen"/>
+		<link rel="stylesheet" href="{% static "css/style.css" %}"/>
+        <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/jquery.js" %} "> </script>
+		<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="container-fluid">
+        <div class="container-fluid span9">
+            <div class="row-fluid span10">
+                <h4> Log in here </h4>
+            </div>
+
+            {% if form.errors %}
+            <form class="form-horizontal alert-error" role="form" method="post" >
+            <div class="row-fluid">
+                <p class="offset2">Your username and password didn't match. Please try again.</p>
+            </div>
+            {% else %}
+            <form class="form-horizontal" role="form" method="post" >
+            {% endif %}
+            {% csrf_token %}
+                <div class="form-group row-fluid">
+                    <label for="{{ form.username.id_for_label }}"
+                           class="control-label span4">{{ form.username.label }} &nbsp;</label>
+
+                    <div>
+                        <input id="{{ form.username.id_for_label }}" class="form-control span6"
+                               maxlength="{{ form.username.max_length }}" name="username" type="text"
+                                value="{{ form.username.value|default_if_none:"" }}">
+                    </div>
+                    <div class="alert-error">
+                        {{ form.username.errors|first }}
+                    </div>
+                </div>
+
+                <div class="form-group row-fluid">
+                    <label for="{{ form.password.id_for_label }}"
+                           class="control-label span4">{{ form.password.label }} &nbsp;</label>
+
+                    <div>
+                        <input id="{{ form.password.id_for_label }}" class="form-control span6"
+                               maxlength="{{ form.password.max_length }}" name="password" type="password">
+                    </div>
+                    <div class="alert-error">
+                        {{ form.password.errors|first }}
+                    </div>
+                </div>
+
+                <input type="hidden" name="next" value="{{ next }}"/>
+
+                <div class="form-group row-fluid">
+                    <div class="offset7 span2" style="padding-left: 20px">
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% include "sidebar.html" %}
+    </div>
+</body>
+</html>

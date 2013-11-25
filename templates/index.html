@@ -9,6 +9,10 @@
         <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
         <script type="text/javascript" src="{% static "js/jquery.js"%} "> </script>
 		<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+
+        {% if request.path == '/logout/' %}
+            <meta http-equiv="refresh" content="1; url=/">
+        {% endif %}
 	</head>
 	<body>
     {% include "header.html" %}
@@ -29,7 +33,9 @@
                     <li><a href="/answers">New</a></li>
 			        <li class="active"><a href="/apopular">Popular</a></li>
                     {% endif %}
+                    {% if user.is_authenticated %}
                     <li class="pull-right" style="color:Green"><a class="btn" data-toggle="modal" href="#AskModal">Ask</a></li>
+                    {% endif %}
                 </ul>
                 <div class="tab-content">
                     {% if page == "" or page == "qpopular" %}

@@ -11,8 +11,8 @@
                     <li style="text-align:right"><a href="/login?next={{ request.get_full_path }}">Log in </a></li>
                     <li style="text-align:right"><a href="/signup?next={{ request.get_full_path }}">Sign up</a></li>
                 {% else %}
-                    <li><a href="/logout">Log out</a></li>
-                    <li>{{ user.username }}</li>
+                    <li><a href="/logout/">Log out</a></li>
+                    <li class="brand hovar" onclick="document.location.href='/users?num={{ user.id }}'">{{ user.username }}</li>
                 {% endif %}
                 </ul>
 			</nav>
