@@ -23,14 +23,13 @@ class Answer(models.Model):
     rating = models.IntegerField()
 
 
-class QuestionForm(ModelForm):
-    class Meta:
-        model = Question
-        fields = ['header', 'contents']
+class VoteQuestion(models.Model):
+    user = models.ForeignKey(User)
+    question = models.ForeignKey('Question')
+    value = models.IntegerField(max_length=4)
 
 
-class AnswerForm(ModelForm):
-    class Meta:
-        model = Answer
-        fields = ['contents']
-
+class VoteAnswer(models.Model):
+    user = models.ForeignKey(User)
+    answer = models.ForeignKey('Answer')
+    value = models.IntegerField(max_length=4)

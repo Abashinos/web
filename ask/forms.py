@@ -1,6 +1,18 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import *
+from ask.models import *
+
+class QuestionForm(ModelForm):
+    class Meta:
+        model = Question
+        fields = ['header', 'contents']
+
+
+class AnswerForm(ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['contents']
 
 class RegistrationForm (UserCreationForm):
 

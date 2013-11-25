@@ -109,6 +109,7 @@
 
                                         <div style="text-align: right">
 
+                                            {% if user.is_authenticated and answer.question.author_id == user.id %}
                                             <a  href="/ans_correct?a_id={{ answer.id }}">
                                             {% if not answer.correct %}
                                                 <i class="icon-ok"></i>
@@ -116,6 +117,7 @@
                                                 <i class="icon-remove"></i>
                                             {% endif %}
                                             </a>
+                                            {% endif %}
                                             <a href="answers?qnum={{ answer.question_id }}">Link to question</a>
                                             <p> <strong>Answer by:</strong> <a href="users?num={{ answer.author.id }}">{{ answer.author }} </a></p>
                                             <p class="muted"> {{ answer.date }}</p>

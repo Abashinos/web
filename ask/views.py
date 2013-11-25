@@ -9,10 +9,11 @@ from django.shortcuts import render
 from django.template import loader, Context, RequestContext
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.utils.datastructures import MultiValueDictKeyError
-from ask.forms import RegistrationForm
+from ask.forms import *
 from scripts import *
 from django.contrib.auth.views import login as djlogin
 from django.contrib.auth.views import logout as djlogout
+
 
 def index(request):
 
