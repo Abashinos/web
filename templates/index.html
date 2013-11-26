@@ -49,11 +49,27 @@
                                 <div class="container-fluid span2" style="text-align:center">
 
                                     <div style="margin-top:5px; ">
-                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=1"><i class="{% if user.is_authenticated %}icon-chevron-up{% else %}icon-lock{% endif %}"></i></a>
+                                    {% if user.id != question.author_id and user.is_authenticated %}
+                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=1">
+                                            <i class="icon-chevron-up"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="#">
+                                            <i class="icon-lock"></i>
+                                        </a>
+                                    {% endif %}
                                         <div id="rating">
                                         <h4 style="font-family:Arial">{{ question.rating }}</h4>
                                         </div>
-                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=-1"><i class="{% if user.is_authenticated %}icon-chevron-down{% else %}icon-lock{% endif %}"></i></a>
+                                    {% if user.id != question.author_id and user.is_authenticated %}
+                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=-1">
+                                            <i class="icon-chevron-down"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="#">
+                                            <i class="icon-lock"></i>
+                                        </a>
+                                    {% endif %}
                                     </div>
                                 </div>
                                 <div class="container-fluid span10">
@@ -97,17 +113,33 @@
                                 <div class="container-fluid span2" style="text-align:center">
 
                                     <div style="margin-top:5px; ">
-                                        <a href="#"><i class="{% if user.is_authenticated %}icon-chevron-up{% else %}icon-lock{% endif %}"></i></a>
+                                        {% if user.id != answer.author_id and user.is_authenticated %}
+                                        <a href="/vote?a_id={{ answer.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=1">
+                                            <i class="icon-chevron-up"></i>
+                                        </a>
+                                        {% else %}
+                                        <a href="#">
+                                            <i class="icon-lock"></i>
+                                        </a>
+                                        {% endif %}
                                         <div id="rating">
-                                        <h3 style="font-family:Arial">{{ answer.rating }}</h3>
+                                        <h4 style="font-family:Arial">{{ answer.rating }}</h4>
                                         </div>
-                                        <a href="#"><i class="{% if user.is_authenticated %}icon-chevron-down{% else %}icon-lock{% endif %}"></i></a>
+                                        {% if user.id != answer.author_id and user.is_authenticated %}
+                                        <a href="/vote?a_id={{ answer.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=-1">
+                                            <i class="icon-chevron-down"></i>
+                                        </a>
+                                        {% else %}
+                                        <a href="#">
+                                            <i class="icon-lock"></i>
+                                        </a>
+                                        {% endif %}
                                     </div>
 
                                 </div>
                                 <div class="container-fluid span10">
                                     <div class="row-fluid">
-                                    <p>{{ answer.contents }}</p>
+                                    <p style="margin: 5px 0 0 5px">{{ answer.contents }}</p>
 
                                         <div style="text-align: right">
 

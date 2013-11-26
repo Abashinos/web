@@ -101,9 +101,25 @@ def get_votes_by_user_and_question(uid, qid, vtp):
     return res
 
 
-def RemoveVote(uid, qid, vtp):
+def RemoveQVote(uid, qid, vtp):
     try:
         VoteQuestion.objects.get(user=get_users_by_id(uid), question=get_questions_by_id(qid), vote_type=vtp).delete()
     except VoteQuestion.DoesNotExist:
+        return 1
+    return 0
+
+
+def get_votes_by_user_and_answer(uid, aid, vtp):
+    try:
+        res = VoteAnswer.objects.get(user=get_users_by_id(uid), answer=get_answers_by_id(aid), vote_type=vtp)
+    except VoteAnswer.DoesNotExist:
+        res = None
+    return res
+
+
+def RemoveAVote(uid, aid, vtp):
+    try:
+        VoteAnswer.objects.get(user=get_users_by_id(uid), answer=get_answers_by_id(aid), vote_type=vtp).delete()
+    except VoteAnswer.DoesNotExist:
         return 1
     return 0
