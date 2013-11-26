@@ -309,11 +309,11 @@ def ans_correct(request):
     if 'a_id' in request.GET and request.GET['a_id']:
         aid = int(request.GET.get('a_id'))
     else:
-        return render(request, 'errors/errors.html', err)
+        return render(request, 'errors.html', err)
     try:
         Answr = get_answers_by_id(aid)
     except:
-        return render(request, 'errors/errors.html', err)
+        return render(request, 'errors.html', err)
 
     if Answr.correct:
         Answr.correct = False
@@ -323,3 +323,39 @@ def ans_correct(request):
 
     redir = request.META['HTTP_REFERER']
     return HttpResponseRedirect(redir)
+
+def vote(request):
+
+    uid = int(request.GET.get('u_id'))
+    qid = int(request.GET.get('q_id'))
+    votetype = int(request.GET.get('vote_type'))
+
+    vote = get_votes_by_user_and_question(uid,qid,votetype)
+    anti_vote = get_votes_by_user_and_question(uid,qid,-votetype)
+
+    if anti_vote is not None:
+        RemoveVote(uid,qid,-votetype)
+        qstn = get_questions_by_id(qid)
+        if votetype == 1:
+            qstn.rating += 1
+        else:
+            qstn.rating -= 1
+        qstn.save()
+        voteres = {"result": "success",
+                    "error": None}
+    else:
+        if vote is None:
+            vte = VoteQuestion.objects.create(user=get_users_by_id(uid), question=get_questions_by_id(qid), vote_type=votetype)
+            qstn = get_questions_by_id(qid)
+            if votetype == 1:
+                qstn.rating += 1
+            else:
+                qstn.rating -= 1
+            qstn.save()
+            vte.save()
+            voteres = {"result": "success",
+                    "error": None}
+        else:
+            voteres = {"result": "fail",
+                   "error": "You have already voted that way."}
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])

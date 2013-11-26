@@ -26,13 +26,13 @@ class Answer(models.Model):
 class VoteQuestion(models.Model):
     user = models.ForeignKey(User)
     question = models.ForeignKey('Question')
-    value = models.IntegerField(max_length=4)
+    vote_type = models.IntegerField(max_length=1)
 
 
 class VoteAnswer(models.Model):
     user = models.ForeignKey(User)
     answer = models.ForeignKey('Answer')
-    value = models.IntegerField(max_length=4)
+    vote_type = models.IntegerField(max_length=1)
 
 
 class CommentQuestion(models.Model):

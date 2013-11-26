@@ -92,3 +92,18 @@ def get_questions_by_rating(page, count=10):
 def get_answers_by_rating(page, count=10):
     return Answer.objects.order_by('-rating')[(page-1)*count:page*count]
 
+
+def get_votes_by_user_and_question(uid, qid, vtp):
+    try:
+        res = VoteQuestion.objects.get(user=get_users_by_id(uid), question=get_questions_by_id(qid), vote_type=vtp)
+    except VoteQuestion.DoesNotExist:
+        res = None
+    return res
+
+
+def RemoveVote(uid, qid, vtp):
+    try:
+        VoteQuestion.objects.get(user=get_users_by_id(uid), question=get_questions_by_id(qid), vote_type=vtp).delete()
+    except VoteQuestion.DoesNotExist:
+        return 1
+    return 0
