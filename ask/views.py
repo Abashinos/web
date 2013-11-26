@@ -85,6 +85,28 @@ def log_out(request):
     return djlogout(request)
 
 
+def comment_question(request):
+    err = {"error": "The comment is invalid."}
+    if request.method == 'POST':
+        form = CommentQuestionForm(request.POST)
+        if form.is_valid():
+            usr = request.user
+            conts = form.cleaned_data['contents']
+            qid = int(form.data['q_id'])
+            try:
+                qstn = Question.objects.get(id=qid)
+            except qstn.DoesNotExist:
+                return render(request, 'errors.html', err)
+            comt = CommentQuestion.objects.create(contents=conts, question_id=qid, author=usr, date=datetime.datetime.now())
+            comt.save()
+            redir = request.META['HTTP_REFERER']
+            return HttpResponseRedirect(redir)
+        else:
+            return render(request, 'errors.html', err)
+    else:
+        return render(request, 'errors.html', err)
+
+
 def ask(request):
     err = {"error": "Your question has invalid parameters. Check length of header and contents."}
     if request.method == 'POST':

@@ -33,3 +33,18 @@ class VoteAnswer(models.Model):
     user = models.ForeignKey(User)
     answer = models.ForeignKey('Answer')
     value = models.IntegerField(max_length=4)
+
+
+class CommentQuestion(models.Model):
+    contents = models.CharField(max_length=500)
+    date = models.DateTimeField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+
+class CommentAnswer(models.Model):
+    contents = models.CharField(max_length=500)
+    date = models.DateTimeField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+

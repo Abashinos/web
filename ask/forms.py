@@ -14,6 +14,18 @@ class AnswerForm(ModelForm):
         model = Answer
         fields = ['contents']
 
+
+class CommentQuestionForm(ModelForm):
+    class Meta:
+        model = CommentQuestion
+        fields = ['contents']
+
+class CommentAnswerForm(ModelForm):
+    class Meta:
+        model = CommentAnswer
+        fields = ['contents']
+
+
 class RegistrationForm (UserCreationForm):
 
     first_name = CharField(max_length=30,

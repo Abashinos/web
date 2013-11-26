@@ -167,7 +167,7 @@ LOGGING = {
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_URL = '/'
+LOGOUT_URL = '/logout/'
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 

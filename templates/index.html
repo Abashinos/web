@@ -10,6 +10,7 @@
         <script type="text/javascript" src="{% static "js/jquery.js"%} "> </script>
 		<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
 
+        <meta content="text/html" >
         {% if request.path == '/logout/' %}
             <meta http-equiv="refresh" content="1; url=/">
         {% endif %}
@@ -67,7 +68,9 @@
                                         <label class="muted pull-right" style="font-size:12px">Date: {{ question.creation_date }}</label>
                                     </div>
                                 </div>
+
                             </div>
+                            {% include "qcomments.html" %}
                             {% endfor %}
                         </div>
                         <footer class="pagination text-center">
@@ -109,7 +112,7 @@
 
                                         <div style="text-align: right">
 
-                                            {% if user.is_authenticated and answer.question.author_id == user.id %}
+                                            {% if user.is_authenticated and answer.question.author_id == user.id and answer.author_id != user.id %}
                                             <a  href="/ans_correct?a_id={{ answer.id }}">
                                             {% if not answer.correct %}
                                                 <i class="icon-ok"></i>
@@ -152,4 +155,5 @@
 	</body>
 
     {% include "askmodal.html" %}
+    {% include "qcommentmodal.html" %}
 </html>

@@ -97,7 +97,7 @@
 
                                         <div style="text-align: right">
 
-                                            {% if user.is_authenticated and answer.question.author_id == user.id %}
+                                            {% if user.is_authenticated and answer.question.author_id == user.id and answer.author_id != user.id %}
                                             <a  href="/ans_correct?a_id={{ answer.id }}">
                                             {% if not answer.correct %}
                                                 <i class="icon-ok"></i>
