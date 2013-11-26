@@ -107,6 +107,28 @@ def comment_question(request):
         return render(request, 'errors.html', err)
 
 
+def comment_answer(request):
+    err = {"error": "The comment is invalid."}
+    if request.method == 'POST':
+        form = CommentAnswerForm(request.POST)
+        if form.is_valid():
+            usr = request.user
+            conts = form.cleaned_data['contents']
+            aid = int(form.data['a_id'])
+            try:
+                answ = Answer.objects.get(id=aid)
+            except answ.DoesNotExist:
+                return render(request, 'errors.html', err)
+            comt = CommentAnswer.objects.create(contents=conts, answer_id=aid, author=usr, date=datetime.datetime.now())
+            comt.save()
+            redir = request.META['HTTP_REFERER']
+            return HttpResponseRedirect(redir)
+        else:
+            return render(request, 'errors.html', err)
+    else:
+        return render(request, 'errors.html', err)
+
+
 def ask(request):
     err = {"error": "Your question has invalid parameters. Check length of header and contents."}
     if request.method == 'POST':

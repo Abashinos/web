@@ -18,6 +18,7 @@ urlpatterns = patterns('',
                        url(r'^login', views.log_in),
                        url(r'^logout', views.log_out),
                        url(r'^signup', views.signup),
-                       url(r'^qcomment', views.comment_question)
+                       url(r'^qcomment', views.comment_question),
+                       url(r'^acomment', views.comment_answer)
 
 )

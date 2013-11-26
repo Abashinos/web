@@ -49,11 +49,11 @@
                                 <div class="container-fluid span2" style="text-align:center">
 
                                     <div style="margin-top:5px; ">
-                                        <a href="#"><i class="icon-chevron-up"></i></a>
+                                        <a href="#"><i class="{% if user.is_authenticated %}icon-chevron-up{% else %}icon-lock{% endif %}"></i></a>
                                         <div id="rating">
                                         <h4 style="font-family:Arial">{{ question.rating }}</h4>
                                         </div>
-                                        <a href="#"><i class="icon-chevron-down"></i></a>
+                                        <a href="#"><i class="{% if user.is_authenticated %}icon-chevron-down{% else %}icon-lock{% endif %}"></i></a>
                                     </div>
                                 </div>
                                 <div class="container-fluid span10">
@@ -70,7 +70,6 @@
                                 </div>
 
                             </div>
-                            {% include "qcomments.html" %}
                             {% endfor %}
                         </div>
                         <footer class="pagination text-center">
@@ -98,11 +97,11 @@
                                 <div class="container-fluid span2" style="text-align:center">
 
                                     <div style="margin-top:5px; ">
-                                        <a href="#"><i class="icon-chevron-up"></i></a>
+                                        <a href="#"><i class="{% if user.is_authenticated %}icon-chevron-up{% else %}icon-lock{% endif %}"></i></a>
                                         <div id="rating">
                                         <h3 style="font-family:Arial">{{ answer.rating }}</h3>
                                         </div>
-                                        <a href="#"><i class="icon-chevron-down"></i></a>
+                                        <a href="#"><i class="{% if user.is_authenticated %}icon-chevron-down{% else %}icon-lock{% endif %}"></i></a>
                                     </div>
 
                                 </div>
@@ -126,7 +125,46 @@
                                             <p class="muted"> {{ answer.date }}</p>
                                         </div>
                                     </div>
+                                <div class="accordion row-fluid" id="comments_on_answer{{ answer.id }}">
+
+                                    <div class="accordion-group">
+                                        <div class="accordion-heading " >
+                                             <a class="accordion-toggle btn btn-info span3" style="margin:11px 0 0 5px" data-toggle="collapse" data-parent="comments_on_answer{{ answer.id }}" href="#comments_row{{ answer.id }}">
+                                                Comments ({{ answer.commentanswer_set.count }})
+                                             </a>
+                                        </div>
+                                    <div id="comments_row{{ answer.id }}" class="accordion-body collapse">
+                                        <div class="accordion-inner ">
+                                        {% for comment in answer.commentanswer_set.all %}
+                                            <div class="row-fluid well span12">
+                                                    <div>
+                                                    {{ comment.contents }}
+                                                    <p class="pull-right"><strong>{{ comment.author }}</strong> | {{ comment.date }} &nbsp;</p>
+                                                    </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% if user.is_authenticated %}
+                                            <form class="form-horizontal" action="/acomment" method="post">
+                                                {% csrf_token %}
+                                                <div class = "row-fluid control-group" >
+                                                    <div class = "controls">
+                                                    <input type="hidden" id="hidden" name="a_id" value="{{ answer.id }}">
+                                                    <textarea style="resize: none" class = "span12" type = "text" placeholder = "Comment text" maxlength="500" id = "contents" name="contents"></textarea>
+                                                    </div>
+                                                    <div class="pull-right">
+                                                    <button class="btn btn-info" style="margin-top: 10px" type="submit">COMMENT</button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
+                                </div>
+
                             </div>
                             {% endfor %}
 
@@ -152,8 +190,7 @@
         {% include "sidebar.html" %}
     </div>
 
+    {% include "askmodal.html" %}
 	</body>
 
-    {% include "askmodal.html" %}
-    {% include "qcommentmodal.html" %}
 </html>

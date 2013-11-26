@@ -87,6 +87,25 @@ def insert_answer(cursor, id):
     cursor.execute("INSERT INTO ask_answer VALUES (%s, %s, %s, %s, %s, %s, %s)",
                    (id, contents, question, author, date, correct, rating))
 
+
+def insert_comment(cursor, id):
+
+    lorem_text = LoremIpsum()
+    lorem_text.MAX_WORDS = 10
+    contents = lorem_text.get_sentences(random.randint(1, 3))
+    date = datetime.datetime.now()
+    author = randrange(1, 10016)
+
+    answer = randrange(1, 1000024)
+    cursor.execute("INSERT INTO ask_commentanswer VALUES (%s, %s, %s, %s, %s)",
+                        (id, contents, date, author, answer))
+
+    #answer = randrange(1, 1000024)
+    #cursor.execute("INSERT INTO ask_commentquestion VALUES (%s, %s, %s, %s, %s)",
+                        #(id, contents, date, author, answer))
+
+
+
 con = mdb.connect('localhost', 'ask_user', '', 'ask_db')
 
 with con:
@@ -95,8 +114,9 @@ with con:
 #        insert_user(cur, x)
 #    for x in xrange(1, 100010):
 #        insert_question(cur, x)
-    for x in xrange(1, 1000010):
-        insert_answer(cur, x)
-
+#    for x in xrange(1, 1000010):
+#        insert_answer(cur, x)
+    for x in xrange(400100, 600100):
+        insert_comment(cur, x)
 
 # create database ask_db character set utf-8
