@@ -392,8 +392,14 @@ def vote(request):
             answr = get_answers_by_id(aid)
             if votetype == 1:
                 answr.rating += 1
+                prof = answr.author.profile
+                prof.rating += 2
+                prof.save()
             else:
                 answr.rating -= 1
+                prof = answr.author.profile
+                prof.rating -= 5
+                prof.save()
             answr.save()
             voteres = {"result": "success",
                         "error": None}
@@ -403,8 +409,14 @@ def vote(request):
                 answr = get_answers_by_id(aid)
                 if votetype == 1:
                     answr.rating += 1
+                    prof = answr.author.profile
+                    prof.rating += 5
+                    prof.save()
                 else:
                     answr.rating -= 1
+                    prof = answr.author.profile
+                    prof.rating -= 2
+                    prof.save()
                 answr.save()
                 vte.save()
                 voteres = {"result": "success",
