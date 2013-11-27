@@ -13,7 +13,7 @@ from ask.forms import *
 from scripts import *
 from django.contrib.auth.views import login as djlogin
 from django.contrib.auth.views import logout as djlogout
-
+from ask.models import UserProfile
 
 def index(request):
 
@@ -46,6 +46,8 @@ def signup(request):
         regform = RegistrationForm(request.POST)
         if regform.is_valid():
             _user = regform.save()
+            prof = UserProfile.objects.create(user_id=_user.id, rating=0)
+            prof.save()
             _user = authenticate(username=request.POST['username'], password=request.POST['password2'])
             login(request, _user)
             try:
@@ -140,6 +142,9 @@ def ask(request):
             cnts = qform.cleaned_data['contents']
             qstn = Question.objects.create(header=hdr, contents=cnts, author= usr, rating=0, creation_date=datetime.datetime.now())
             qstn.save()
+            prof = usr.profile
+            prof.rating += 1
+            prof.save()
             return HttpResponseRedirect("/index")
         else:
             return render(request, "errors.html", err)
@@ -339,8 +344,14 @@ def vote(request):
             qstn = get_questions_by_id(qid)
             if votetype == 1:
                 qstn.rating += 1
+                prof = qstn.author.profile
+                prof.rating += 2
+                prof.save()
             else:
                 qstn.rating -= 1
+                prof = qstn.author.profile
+                prof.rating -= 3
+                prof.save()
             qstn.save()
             voteres = {"result": "success",
                         "error": None}
@@ -350,8 +361,15 @@ def vote(request):
                 qstn = get_questions_by_id(qid)
                 if votetype == 1:
                     qstn.rating += 1
+                    prof = qstn.author.profile
+                    prof.rating += 3
+                    prof.save()
                 else:
                     qstn.rating -= 1
+                    prof = qstn.author.profile
+                    prof.rating -= 2
+                    prof.save()
+
                 qstn.save()
                 vte.save()
                 voteres = {"result": "success",

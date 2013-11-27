@@ -123,3 +123,11 @@ def RemoveAVote(uid, aid, vtp):
     except VoteAnswer.DoesNotExist:
         return 1
     return 0
+
+
+def get_user_by_username(uname):
+    try:
+        res = User.objects.get(username=uname)
+    except User.DoesNotExist:
+        return None
+    return res.id

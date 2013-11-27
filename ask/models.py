@@ -48,3 +48,8 @@ class CommentAnswer(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
 
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, unique=True)
+    rating = models.IntegerField()
+    User.profile = property(lambda u: UserProfile.objects.get(user=u))

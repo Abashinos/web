@@ -104,6 +104,11 @@ def insert_comment(cursor, id):
     #cursor.execute("INSERT INTO ask_commentquestion VALUES (%s, %s, %s, %s, %s)",
                         #(id, contents, date, author, answer))
 
+def insert_rating(cursor, id):
+
+    rat = 0
+    cursor.execute("INSERT INTO ask_userprofile VALUES (%s, %s, %s)", (id, id, rat))
+
 
 
 con = mdb.connect('localhost', 'ask_user', '', 'ask_db')
@@ -116,7 +121,9 @@ with con:
 #        insert_question(cur, x)
 #    for x in xrange(1, 1000010):
 #        insert_answer(cur, x)
-    for x in xrange(400100, 600100):
-        insert_comment(cur, x)
+#    for x in xrange(400100, 600100):
+#        insert_comment(cur, x)
+    for x in xrange(1, 10017):
+         insert_rating(cur, x)
 
 # create database ask_db character set utf-8

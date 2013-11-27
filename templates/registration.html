@@ -30,6 +30,7 @@
                 <form class="form-horizontal" role="form" method="post" action="" enctype="multipart/form-data">
                 {% csrf_token %}
 
+
                 {% if regform.username.errors %}
                 <div class="alert-error row-fluid" style="margin-top: 5px">
                 {% else %}
@@ -70,7 +71,7 @@
                     </div>
                 </div>
 
-                {% if reg_form.last_name.errors %}
+                {% if regform.last_name.errors %}
                 <div class="alert-error row-fluid" style="margin-top: 5px">
                 {% else %}
                 <div class="row-fluid" style="margin-top: 5px">

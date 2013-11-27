@@ -21,7 +21,10 @@
 
                 <div class="well">
                     <h4>{{ uuser.username }}
-                        ({{ uuser.first_name }} {{ uuser.last_name }})</h4>
+                        ({{ uuser.first_name }} {{ uuser.last_name }})
+                    <p class="pull-right table-bordered {% if uuser.profile.rating > 0 %}alert-success{% elif uuser.profile.rating = 0 %}alert-info{% else %}alert-danger{% endif %} span1" style="text-align: center">{{ uuser.profile.rating }}</p>
+                    </h4>
+
                     <div class="table-bordered table-hover">
                         <p><strong>Date joined:</strong> {{ uuser.date_joined }}</p>
                         <p>Questions: {{ uuser.question_set.count }}</p>

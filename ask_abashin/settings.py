@@ -165,6 +165,7 @@ LOGGING = {
     }
 }
 
+AUTH_PROFILE_MODULE = 'ask.UserProfile'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_URL = '/logout/'
