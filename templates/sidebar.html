@@ -26,8 +26,17 @@
             <div class="row-fluid table-bordered">
                 <p class="muted" style="font-size:16px">Latest registered users:</p>
                 {% for uuser in uusers %}
-                <div>
+                <div class="container-fluid">
                     <a href="users?num={{ uuser.id }}">{{ uuser.username }}</a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row-fluid table-bordered">
+                <p class="muted" style="font-size:16px">Top users:</p>
+                {% for tuser in top_users %}
+                <div class="container-fluid">
+                    <a href="users?num={{ tuser.id }}">{{ tuser.username }}</a>
+                    <p class="pull-right {% if tuser.profile.rating > 0 %}alert-success{% else %}alert-info{% endif %}">{{ tuser.profile.rating }}</p>
                 </div>
                 {% endfor %}
             </div>

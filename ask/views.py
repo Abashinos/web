@@ -17,7 +17,7 @@ from ask.models import UserProfile
 
 def index(request):
 
-    usrs = get_latest_users()
+    usrs, top_usrs = get_latest_users()
 
     qpage = get_page(request)
     qstns = get_questions_by_date(qpage)
@@ -30,6 +30,7 @@ def index(request):
     c = {
         "questions": qstns,
         "uusers": usrs,
+        "top_users": top_usrs,
         "pages_count": pagecount,
         "page": "",
         "current_page": qpage,
@@ -57,7 +58,7 @@ def signup(request):
             return HttpResponseRedirect(redir)
 
         else:
-            usrs = get_latest_users()
+            usrs, top_usrs = get_latest_users()
             return render(request, "registration.html", {
                                     'regform': regform,
                                     'uusers': usrs
@@ -66,7 +67,8 @@ def signup(request):
     usrs = get_latest_users()
     return render(request, "registration.html", {
         'regform': regform,
-        'uusers': usrs
+        'uusers': usrs,
+        'top_users': top_usrs
     })
 
 
@@ -74,8 +76,9 @@ def log_in(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect('/')
 
-    usrs = get_latest_users()
-    c = { 'uusers': usrs }
+    usrs, top_usrs = get_latest_users()
+    c = { 'uusers': usrs,
+          'top_users': top_usrs}
 
     return djlogin(request, extra_context=c)
 
@@ -153,7 +156,7 @@ def ask(request):
 
 
 def questions_by_rating(request):
-    usrs = get_latest_users()
+    usrs, top_usrs = get_latest_users()
     qpage = get_page(request)
     qstns = get_questions_by_rating(qpage)
 
@@ -165,6 +168,7 @@ def questions_by_rating(request):
     c = {
         "questions": qstns,
         "uusers": usrs,
+        "top_users": top_usrs,
         "pages_count": pagecount,
         "page": "qpopular",
         "current_page": qpage,
@@ -186,14 +190,14 @@ def answer(request):
             redir = request.META['HTTP_REFERER']
             return HttpResponseRedirect(redir)
         else:
-            return render(request, 'registration/../templates/errors.html', err)
+            return render(request, 'errors.html', err)
     else:
-        return render(request, 'registration/../templates/errors.html', err)
+        return render(request, 'errors.html', err)
 
 
 def answers(request):
 
-    usrs = get_latest_users()
+    usrs, top_usrs = get_latest_users()
 
     if request.GET.get('qnum') is None:
 
@@ -208,6 +212,7 @@ def answers(request):
         c = {
         "answers": answs,
         "uusers": usrs,
+        "top_users": top_usrs,
         "pages_count": pagecount,
         "page": "answers",
         "current_page": apage,
@@ -224,6 +229,7 @@ def answers(request):
         t = loader.get_template("answers.html")
         c = RequestContext(request, {"question": qstn,
                      "uusers": usrs,
+                     "top_users": top_usrs,
                      "answers": answs})
 
         return HttpResponse(t.render(c))
@@ -231,7 +237,7 @@ def answers(request):
 
 def answers_by_rating(request):
 
-    usrs = get_latest_users()
+    usrs, top_usrs = get_latest_users()
     apage = get_apage(request)
     answs = get_answers_by_rating(apage)
 
@@ -243,6 +249,7 @@ def answers_by_rating(request):
     c = {
         "answers": answs,
         "uusers": usrs,
+        "top_users": top_usrs,
         "pages_count": pagecount,
         "page": "apopular",
         "current_page": apage,
@@ -253,7 +260,7 @@ def answers_by_rating(request):
 
 def users(request):
 
-    usrs = get_latest_users()
+    usrs, top_usrs = get_latest_users()
 
     if request.GET.get("tab") == "questions" or request.GET.get("tab") is None:
         try:
@@ -269,6 +276,7 @@ def users(request):
 
             c = {"uuser": usr,
                 "uusers": usrs,
+                "top_users": top_usrs,
                 "questions": qstns,
                 "pages_count": pagecount,
                 "page": "questions",
@@ -293,6 +301,7 @@ def users(request):
 
             c = {"uuser": usr,
                 "uusers": usrs,
+                "top_users": top_usrs,
                 "answers": answs,
                 "pages_count": pagecount,
                 "page": "answers",

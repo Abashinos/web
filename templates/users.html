@@ -52,7 +52,7 @@
 
                                     <div style="margin-top:5px; ">
                                         {% if user.id != question.author_id and user.is_authenticated %}
-                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=1">
+                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&vote_type=1">
                                             <i class="icon-chevron-up"></i>
                                         </a>
                                     {% else %}
@@ -64,7 +64,7 @@
                                         <h4 style="font-family:Arial">{{ question.rating }}</h4>
                                         </div>
                                     {% if user.id != question.author_id and user.is_authenticated %}
-                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=-1">
+                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&vote_type=-1">
                                             <i class="icon-chevron-down"></i>
                                         </a>
                                     {% else %}
@@ -103,7 +103,7 @@
 
                                     <div style="margin-top:5px; ">
                                         {% if user.id != answer.author_id and user.is_authenticated %}
-                                        <a href="/vote?a_id={{ answer.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=1">
+                                        <a href="/vote?a_id={{ answer.id }}&u_id={{ user.id }}&vote_type=1">
                                             <i class="icon-chevron-up"></i>
                                         </a>
                                         {% else %}
@@ -115,7 +115,7 @@
                                         <h4 style="font-family:Arial">{{ answer.rating }}</h4>
                                         </div>
                                         {% if user.id != answer.author_id and user.is_authenticated %}
-                                        <a href="/vote?a_id={{ answer.id }}&u_id={{ user.id }}&tab={% if page == "" %}questions{% else %}{{ page }}{% endif %}&vote_type=-1">
+                                        <a href="/vote?a_id={{ answer.id }}&u_id={{ user.id }}&vote_type=-1">
                                             <i class="icon-chevron-down"></i>
                                         </a>
                                         {% else %}

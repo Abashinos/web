@@ -46,7 +46,13 @@ def get_questions_by_date(page, count=10):
 
 
 def get_latest_users(number=10):
-    return User.objects.order_by('-date_joined')[:number]
+    profs = UserProfile.objects.order_by('-rating')[:number]
+    usrs = []
+    for x in profs:
+        usr = get_users_by_id(x.user_id)
+        usrs.append(usr)
+
+    return User.objects.order_by('-date_joined')[:number], usrs
 
 
 def get_answers_by_date(page, count=10):
