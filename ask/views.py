@@ -1,5 +1,6 @@
 # Create your views here.
 import datetime
+import json
 from math import ceil
 import random
 from django.contrib.auth import authenticate, login
@@ -64,7 +65,7 @@ def signup(request):
                                     'uusers': usrs
                                     })
 
-    usrs = get_latest_users()
+    usrs, top_usrs = get_latest_users()
     return render(request, "registration.html", {
         'regform': regform,
         'uusers': usrs,
@@ -87,7 +88,7 @@ def log_out(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/')
 
-    return djlogout(request)
+    return djlogout(request, next_page='/')
 
 
 def comment_question(request):
@@ -340,10 +341,10 @@ def ans_correct(request):
 
 def vote(request):
 
-    if 'q_id' in request.GET and request.GET['q_id']:
-        uid = int(request.GET.get('u_id'))
-        qid = int(request.GET.get('q_id'))
-        votetype = int(request.GET.get('vote_type'))
+    if request.POST.get('contenttype') == 'q':
+        uid = request.user.id
+        qid = int(request.POST.get('c_id'))
+        votetype = int(request.POST.get('votetype'))
 
         vote = get_votes_by_user_and_question(uid,qid,votetype)
         anti_vote = get_votes_by_user_and_question(uid,qid,-votetype)
@@ -363,6 +364,7 @@ def vote(request):
                 prof.save()
             qstn.save()
             voteres = {"result": "success",
+                       "rating": qstn.rating,
                         "error": None}
         else:
             if vote is None:
@@ -382,16 +384,17 @@ def vote(request):
                 qstn.save()
                 vte.save()
                 voteres = {"result": "success",
+                           "rating": qstn.rating,
                         "error": None}
             else:
                 voteres = {"result": "fail",
                        "error": "You have already voted that way."}
-        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+        return HttpResponse(json.dumps(voteres), content_type="application/json")
 
-    elif 'a_id' in request.GET and request.GET['a_id']:
-        aid = int(request.GET.get('a_id'))
-        uid = int(request.GET.get('u_id'))
-        votetype = int(request.GET.get('vote_type'))
+    elif request.POST.get('contenttype') == 'a':
+        aid = int(request.POST.get('c_id'))
+        uid = request.user.id
+        votetype = int(request.POST.get('votetype'))
 
         vote = get_votes_by_user_and_answer(uid,aid,votetype)
         anti_vote = get_votes_by_user_and_answer(uid,aid,-votetype)
@@ -411,6 +414,7 @@ def vote(request):
                 prof.save()
             answr.save()
             voteres = {"result": "success",
+                       "rating": answr.rating,
                         "error": None}
         else:
             if vote is None:
@@ -429,11 +433,14 @@ def vote(request):
                 answr.save()
                 vte.save()
                 voteres = {"result": "success",
+                           "rating": answr.rating,
                         "error": None}
             else:
                 voteres = {"result": "fail",
                        "error": "You have already voted that way."}
-        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+        return HttpResponse(json.dumps(voteres), content_type="application/json")
 
     else:
-        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+        voteres = {"result": "fail",
+                       "error": "Something went wrong."}
+        return HttpResponse(json.dumps(voteres), content_type="application/json")

@@ -9,6 +9,7 @@
         <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
         <script type="text/javascript" src="{% static "js/jquery.js"%} "> </script>
 		<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
 
         <meta content="text/html" >
         {% if request.path == '/logout/' %}
@@ -38,9 +39,6 @@
                     <li class="pull-right" style="color:Green"><a class="btn" data-toggle="modal" href="#AskModal">Ask</a></li>
                     {% endif %}
                 </ul>
-                {% if result == "fail" %}
-                    <p> ACHTUNG!!! </p>
-                {% endif %}
                 <div class="tab-content">
                     {% if page == "" or page == "qpopular" %}
 
@@ -48,12 +46,12 @@
 
                         <div id="questions_row" class="row-fluid">
                             {% for question in questions %}
-                            <div class="container-fluid table-bordered">
+                            <div class="content_block container-fluid table-bordered" data-id="{{ question.id }}">
                                 <div class="container-fluid span2" style="text-align:center">
 
                                     <div style="margin-top:5px; ">
                                     {% if user.id != question.author_id and user.is_authenticated %}
-                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&vote_type=1">
+                                            <a class="rating_button" href="#" data-votetype="1" data-contenttype="q">
                                             <i class="icon-chevron-up"></i>
                                         </a>
                                     {% else %}
@@ -61,11 +59,11 @@
                                             <i class="icon-lock"></i>
                                         </a>
                                     {% endif %}
-                                        <div id="rating">
-                                        <h4 style="font-family:Arial">{{ question.rating }}</h4>
+                                        <div>
+                                        <h4 class="rating-table" style="font-family:Arial">{{ question.rating }}</h4>
                                         </div>
                                     {% if user.id != question.author_id and user.is_authenticated %}
-                                        <a href="/vote?q_id={{ question.id }}&u_id={{ user.id }}&vote_type=-1">
+                                            <a class="rating_button" href="#" data-votetype="-1" data-contenttype="q">
                                             <i class="icon-chevron-down"></i>
                                         </a>
                                     {% else %}
@@ -111,13 +109,13 @@
 
                         <div id="questions_row" class="row-fluid">
                             {% for answer in answers %}
-                            <div class="{% if answer.correct %} alert-success {% endif %}container-fluid table-bordered">
+                            <div class="content_block {% if answer.correct %} alert-success {% endif %}container-fluid table-bordered" data-id="{{ answer.id }}">
 
                                 <div class="container-fluid span2" style="text-align:center">
 
                                     <div style="margin-top:5px; ">
                                         {% if user.id != answer.author_id and user.is_authenticated %}
-                                        <a href="/vote?a_id={{ answer.id }}&u_id={{ user.id }}&vote_type=1">
+                                        <a class="rating_button" href="#" data-votetype="1" data-contenttype="a">
                                             <i class="icon-chevron-up"></i>
                                         </a>
                                         {% else %}
@@ -125,11 +123,11 @@
                                             <i class="icon-lock"></i>
                                         </a>
                                         {% endif %}
-                                        <div id="rating">
-                                        <h4 style="font-family:Arial">{{ answer.rating }}</h4>
+                                        <div>
+                                        <h4 class="rating-table" style="font-family:Arial">{{ answer.rating }}</h4>
                                         </div>
                                         {% if user.id != answer.author_id and user.is_authenticated %}
-                                        <a href="/vote?a_id={{ answer.id }}&u_id={{ user.id }}&vote_type=-1">
+                                        <a class="rating_button" href="#" data-votetype="-1" data-contenttype="a">
                                             <i class="icon-chevron-down"></i>
                                         </a>
                                         {% else %}
