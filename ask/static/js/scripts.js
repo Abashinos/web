@@ -7,6 +7,9 @@ $('#navtabs li').click(function(){
         $(this).addClass('active');
     });
 
+//$.toast.config.align = 'right';
+//$.toast.config.closeForStickyOnly = false;
+//$.toast.config.width = 800;
 
 function setupCsrfAjax() {
     function getCookie(name) {
@@ -41,10 +44,14 @@ function setupCsrfAjax() {
     });
 }
 
+
+
 jQuery(Document).ready(function(){
     setupCsrfAjax();
 
     $('.rating_button').click(function(){
+
+       // $.toast();
         var c = $(this).parents(".content_block");
         var cid = c.data("id");
         var votetype = $(this).data("votetype");
@@ -61,6 +68,7 @@ jQuery(Document).ready(function(){
                     }
                 })
             .done(function(msg){
+
                         if (msg["error"] != null)
                         {
                             alert(msg["error"]);
@@ -68,6 +76,45 @@ jQuery(Document).ready(function(){
                         }
                         alert(msg["result"]);
                         c.find(".rating-table").text(msg["rating"]);
+                        })
+            .fail(function(msg){
+                    alert(msg["result"]);
+                });
+            return false;
+            });
+
+    $('.correct_button').click(function(){
+        var c = $(this).parents(".content_block");
+        var cid = c.data("id");
+
+        $.ajax({
+                    type: "post",
+                    url: "ans_correct",
+                    data:
+                    {
+                        c_id: cid
+                    }
+                })
+            .done(function(msg){
+
+                        if (msg["error"] != null)
+                        {
+                            alert(msg["error"]);
+                            return;
+                        }
+                        alert(msg["result"]);
+                        if (msg["toggle"] == true)
+                        {
+                            c.addClass('alert-success');
+                            c.find(".correct_toggle").removeClass('icon-ok');
+                            c.find(".correct_toggle").addClass('icon-remove');
+                        }
+                        else
+                        {
+                            c.removeClass('alert-success');
+                            c.find(".correct_toggle").removeClass('icon-remove');
+                            c.find(".correct_toggle").addClass('icon-ok');
+                        }
                         })
             .fail(function(msg){
                     alert(msg["result"]);

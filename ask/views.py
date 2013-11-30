@@ -319,128 +319,142 @@ def users(request):
 
 def ans_correct(request):
 
-    err = {"error": "Answer not found"}
-
-    if 'a_id' in request.GET and request.GET['a_id']:
-        aid = int(request.GET.get('a_id'))
+    if 'c_id' in request.POST:
+        cid = int(request.POST.get('c_id'))
     else:
-        return render(request, 'errors.html', err)
+        res = {"result": "fail",
+               "error": "No answer chosen."}
+        return HttpResponse(json.dumps(res), content_type="application/json")
+
     try:
-        Answr = get_answers_by_id(aid)
+        Answr = get_answers_by_id(cid)
     except:
-        return render(request, 'errors.html', err)
+        res = {"result": "fail",
+               "error": "No such answer."}
+        return HttpResponse(json.dumps(res), content_type="application/json")
 
     if Answr.correct:
         Answr.correct = False
+        res = {"result": "The answer is marked as incorrect",
+               "toggle": False,
+            "error": None}
     else:
         Answr.correct = True
+        res = {"result": "The answer is marked as correct",
+               "toggle": True,
+            "error": None}
     Answr.save()
 
-    redir = request.META['HTTP_REFERER']
-    return HttpResponseRedirect(redir)
+
+    return HttpResponse(json.dumps(res), content_type="application/json")
 
 def vote(request):
 
-    if request.POST.get('contenttype') == 'q':
-        uid = request.user.id
-        qid = int(request.POST.get('c_id'))
-        votetype = int(request.POST.get('votetype'))
+    if request.user.is_authenticated():
+        if request.POST.get('contenttype') == 'q':
+            uid = request.user.id
+            qid = int(request.POST.get('c_id'))
+            votetype = int(request.POST.get('votetype'))
 
-        vote = get_votes_by_user_and_question(uid,qid,votetype)
-        anti_vote = get_votes_by_user_and_question(uid,qid,-votetype)
+            vote = get_votes_by_user_and_question(uid,qid,votetype)
+            anti_vote = get_votes_by_user_and_question(uid,qid,-votetype)
 
-        if anti_vote is not None:
-            RemoveQVote(uid,qid,-votetype)
-            qstn = get_questions_by_id(qid)
-            if votetype == 1:
-                qstn.rating += 1
-                prof = qstn.author.profile
-                prof.rating += 2
-                prof.save()
-            else:
-                qstn.rating -= 1
-                prof = qstn.author.profile
-                prof.rating -= 3
-                prof.save()
-            qstn.save()
-            voteres = {"result": "success",
-                       "rating": qstn.rating,
-                        "error": None}
-        else:
-            if vote is None:
-                vte = VoteQuestion.objects.create(user=get_users_by_id(uid), question=get_questions_by_id(qid), vote_type=votetype)
+            if anti_vote is not None:
+                RemoveQVote(uid,qid,-votetype)
                 qstn = get_questions_by_id(qid)
                 if votetype == 1:
                     qstn.rating += 1
                     prof = qstn.author.profile
-                    prof.rating += 3
+                    prof.rating += 2
                     prof.save()
                 else:
                     qstn.rating -= 1
                     prof = qstn.author.profile
-                    prof.rating -= 2
+                    prof.rating -= 3
                     prof.save()
-
                 qstn.save()
-                vte.save()
-                voteres = {"result": "success",
+                voteres = {"result": "Thank you for your vote.",
                            "rating": qstn.rating,
-                        "error": None}
+                            "error": None}
             else:
-                voteres = {"result": "fail",
-                       "error": "You have already voted that way."}
-        return HttpResponse(json.dumps(voteres), content_type="application/json")
+                if vote is None:
+                    vte = VoteQuestion.objects.create(user=get_users_by_id(uid), question=get_questions_by_id(qid), vote_type=votetype)
+                    qstn = get_questions_by_id(qid)
+                    if votetype == 1:
+                        qstn.rating += 1
+                        prof = qstn.author.profile
+                        prof.rating += 3
+                        prof.save()
+                    else:
+                        qstn.rating -= 1
+                        prof = qstn.author.profile
+                        prof.rating -= 2
+                        prof.save()
 
-    elif request.POST.get('contenttype') == 'a':
-        aid = int(request.POST.get('c_id'))
-        uid = request.user.id
-        votetype = int(request.POST.get('votetype'))
+                    qstn.save()
+                    vte.save()
+                    voteres = {"result": "Thank you for your vote.",
+                               "rating": qstn.rating,
+                            "error": None}
+                else:
+                    voteres = {"result": "fail",
+                           "error": "You have already voted that way."}
+            return HttpResponse(json.dumps(voteres), content_type="application/json")
 
-        vote = get_votes_by_user_and_answer(uid,aid,votetype)
-        anti_vote = get_votes_by_user_and_answer(uid,aid,-votetype)
+        elif request.POST.get('contenttype') == 'a':
+            aid = int(request.POST.get('c_id'))
+            uid = request.user.id
+            votetype = int(request.POST.get('votetype'))
 
-        if anti_vote is not None:
-            RemoveAVote(uid,aid,-votetype)
-            answr = get_answers_by_id(aid)
-            if votetype == 1:
-                answr.rating += 1
-                prof = answr.author.profile
-                prof.rating += 2
-                prof.save()
-            else:
-                answr.rating -= 1
-                prof = answr.author.profile
-                prof.rating -= 5
-                prof.save()
-            answr.save()
-            voteres = {"result": "success",
-                       "rating": answr.rating,
-                        "error": None}
-        else:
-            if vote is None:
-                vte = VoteAnswer.objects.create(user=get_users_by_id(uid), answer=get_answers_by_id(aid), vote_type=votetype)
+            vote = get_votes_by_user_and_answer(uid,aid,votetype)
+            anti_vote = get_votes_by_user_and_answer(uid,aid,-votetype)
+
+            if anti_vote is not None:
+                RemoveAVote(uid,aid,-votetype)
                 answr = get_answers_by_id(aid)
                 if votetype == 1:
                     answr.rating += 1
                     prof = answr.author.profile
-                    prof.rating += 5
+                    prof.rating += 2
                     prof.save()
                 else:
                     answr.rating -= 1
                     prof = answr.author.profile
-                    prof.rating -= 2
+                    prof.rating -= 5
                     prof.save()
                 answr.save()
-                vte.save()
-                voteres = {"result": "success",
+                voteres = {"result": "Thank you for your vote.",
                            "rating": answr.rating,
-                        "error": None}
+                            "error": None}
             else:
-                voteres = {"result": "fail",
-                       "error": "You have already voted that way."}
-        return HttpResponse(json.dumps(voteres), content_type="application/json")
+                if vote is None:
+                    vte = VoteAnswer.objects.create(user=get_users_by_id(uid), answer=get_answers_by_id(aid), vote_type=votetype)
+                    answr = get_answers_by_id(aid)
+                    if votetype == 1:
+                        answr.rating += 1
+                        prof = answr.author.profile
+                        prof.rating += 5
+                        prof.save()
+                    else:
+                        answr.rating -= 1
+                        prof = answr.author.profile
+                        prof.rating -= 2
+                        prof.save()
+                    answr.save()
+                    vte.save()
+                    voteres = {"result": "Thank you for your vote.",
+                               "rating": answr.rating,
+                            "error": None}
+                else:
+                    voteres = {"result": "fail",
+                           "error": "You have already voted that way."}
+            return HttpResponse(json.dumps(voteres), content_type="application/json")
 
+        else:
+            voteres = {"result": "fail",
+                           "error": "Something went wrong."}
+            return HttpResponse(json.dumps(voteres), content_type="application/json")
     else:
         voteres = {"result": "fail",
-                       "error": "Something went wrong."}
+                           "error": "You must be logged in to vote."}
         return HttpResponse(json.dumps(voteres), content_type="application/json")
