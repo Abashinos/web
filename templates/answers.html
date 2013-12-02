@@ -2,17 +2,7 @@
 <html>
 	<head>
 		<title> Ask Abashin </title>
-        {% load staticfiles %}
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-		<link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" media="screen"/>
-		<link rel="stylesheet" href="{% static "css/style.css" %}"/>
-        <link rel="stylesheet" type="text/css" href="{% static "css/jquery.toast.css" %}"/>
-        <script type="text/javascript" src="{% static "js/jquery.toast.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/jquery.toast.min.js" %}"></script>
-        <script typt="text/javascript" src="{% static "js/scripts.js" %}"></script>
-		<script src="{% static "js/jquery.js"%} "> </script>
-		<script src="{% static "js/bootstrap.min.js" %}"></script>
-        <script src="{% static "js/scripts.js" %}"></script>
+        {% include "sources.html" %}
 	</head>
 	<body>
     {% include "header.html" %}
@@ -73,7 +63,7 @@
                                         Comments ({{ question.commentquestion_set.count }})
                                       </a>
                                         {% if user.is_authenticated %}
-                                            <a class="pull-right btn btn-info span2"  style="margin-top: 10px" href="#QCommentModal" data-target="#QCommentModal" data-toggle="modal">Comment </a>
+                                            <a class="pull-right btn btn-info span2"  style="margin: 10px 5px 0 0" href="#QCommentModal" data-target="#QCommentModal" data-toggle="modal">Comment </a>
                                         {% endif %}
 
                                     </div>
@@ -81,10 +71,10 @@
                                   <div class="accordion-inner">
                                     {% for comment in question.commentquestion_set.all %}
 
-                                        <div class="row-fluid well">
-                                            <div class="span12">
-                                                {{ comment.contents }}
-                                                <p class="pull-right"><strong>{{ comment.author.username }}</strong> | {{ comment.date }} &nbsp;</p>
+                                        <div class="row-fluid well span12 pull-right">
+                                            <div>
+                                                <blockquote style="color:#002080">{{ comment.contents }}</blockquote>
+                                                <p class="row-fluid" style="text-align: right"><a href="users?num={{ comment.author.id }}">{{ comment.author }}</a> | {{ comment.date }} &nbsp;</p>
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -149,10 +139,10 @@
                                     <div id="comments_row{{ answer.id }}" class="accordion-body collapse">
                                         <div class="accordion-inner ">
                                         {% for comment in answer.commentanswer_set.all %}
-                                            <div class="row-fluid well">
+                                            <div class="row-fluid well span12 pull-right" style="color:black">
                                                     <div>
-                                                    {{ comment.contents }}
-                                                    <p class="pull-right"><strong>{{ comment.author }}</strong> | {{ comment.date }} &nbsp;</p>
+                                                    <blockquote style="color:#002080">{{ comment.contents }}</blockquote>
+                                                    <p class="row-fluid" style="text-align: right"><a href="users?num={{ comment.author.id }}">{{ comment.author }}</a> | {{ comment.date }} &nbsp;</p>
                                                     </div>
                                             </div>
                                             {% endfor %}

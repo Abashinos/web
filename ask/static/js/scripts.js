@@ -2,14 +2,12 @@
  * Created by snake on 11/16/13.
  */
 
+/*
 $('#navtabs li').click(function(){
         $(this).parents('#feed-nav').children('li').removeClass('active');
         $(this).addClass('active');
     });
-
-//$.toast.config.align = 'right';
-//$.toast.config.closeForStickyOnly = false;
-//$.toast.config.width = 800;
+*/
 
 function setupCsrfAjax() {
     function getCookie(name) {
@@ -49,9 +47,12 @@ function setupCsrfAjax() {
 jQuery(Document).ready(function(){
     setupCsrfAjax();
 
+    $.toast.config.align = 'right';
+    $.toast.config.closeForStickyOnly = false;
+    $.toast.config.width = 300;
+
     $('.rating_button').click(function(){
 
-       // $.toast();
         var c = $(this).parents(".content_block");
         var cid = c.data("id");
         var votetype = $(this).data("votetype");
@@ -71,10 +72,10 @@ jQuery(Document).ready(function(){
 
                         if (msg["error"] != null)
                         {
-                            alert(msg["error"]);
+                            $.toast(msg['error'], {duration: 2000, type: 'danger'});
                             return;
                         }
-                        alert(msg["result"]);
+                        $.toast(msg['result'], {duration: 2000, type: 'success'})
                         c.find(".rating-table").text(msg["rating"]);
                         })
             .fail(function(msg){
@@ -99,10 +100,10 @@ jQuery(Document).ready(function(){
 
                         if (msg["error"] != null)
                         {
-                            alert(msg["error"]);
+                            $.toast(msg['error'], {duration: 2000, type: 'danger'})
                             return;
                         }
-                        alert(msg["result"]);
+                        $.toast(msg['result'], {duration: 2000, type: 'success'})
                         if (msg["toggle"] == true)
                         {
                             c.addClass('alert-success');
