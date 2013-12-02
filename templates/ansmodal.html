@@ -6,22 +6,24 @@
                 </ul>
             </div>
         </div>
-        <form action="/answer" method="post">{% csrf_token %}
-            <div class="row-fluid" style="margin-top: 5px">
-                <div class="row-fluid control-group">
-                    <label class="span5" for = "contents" style=" font-size:16px; margin-top: 3px; text-align:right"> Answer text &nbsp;</label>
-                    <div class = "controls">
-                        <textarea id = "contents" name="contents" class = "span5" style = "resize:none" rows="4" placeholder = "Type answer here" maxlength="1500"></textarea>
+        <div class="modal-body">
+            <form class="form-horizontal" id="ansmodal" action="/answer" method="post">{% csrf_token %}
+                    <div class="row-fluid control-group">
+                        <label class="lead span4" for = "contents" style=" font-size:16px; text-align:right"> Answer text &nbsp;</label>
+                        <div class = "controls">
+                            <textarea id = "contents" name="contents" class = "span12" style = "resize:none" rows="4" placeholder = "Type answer here" maxlength="1500" required></textarea>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" style="float:left" value="ANSWER"/>
-                    <a href="#" class="btn" data-dismiss="modal">Close</a>
-                </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" style="float:left" value="ANSWER"/>
+                        <a href="#" class="btn" data-dismiss="modal">Close</a>
+                    </div>
 
-                <input type="hidden" id="hidden" name="qid" value="{{ question.id }}">
-        </form>
-
+                    <input type="hidden" id="hidden" name="qid" value="{{ question.id }}">
+            </form>
+        </div>
+        <script>
+            $('#ansmodal').validate();
+        </script>
     </div>

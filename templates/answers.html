@@ -147,12 +147,12 @@
                                             </div>
                                             {% endfor %}
                                             {% if user.is_authenticated %}
-                                            <form class="form-horizontal" action="/acomment" method="post">
+                                            <form id="comanswer" class="form-horizontal" action="/acomment" method="post" style="color:black; text-align: right">
                                                 {% csrf_token %}
                                                 <div class = "row-fluid control-group" >
                                                     <div class = "controls">
                                                     <input type="hidden" id="hidden" name="a_id" value="{{ answer.id }}">
-                                                    <textarea style="resize: none" class = "span12" type = "text" placeholder = "Comment text" maxlength="500" id = "contents" name="contents"></textarea>
+                                                    <textarea style="resize: none" class = "span12" type = "text" placeholder = "Comment text" maxlength="500" id = "contents" name="contents" required></textarea>
                                                     </div>
                                                     <div class="pull-right">
                                                     <button class="btn btn-info" style="margin-top: 10px" type="submit">COMMENT</button>
@@ -160,6 +160,9 @@
                                                 </div>
 
                                             </form>
+                                            <script>
+                                                $('#comanswer').validate();
+                                            </script>
                                             {% endif %}
                                             </div>
                                         </div>
