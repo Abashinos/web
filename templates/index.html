@@ -55,7 +55,7 @@
                                             <i class="icon-chevron-up"></i>
                                         </a>
                                     {% else %}
-                                        <a href="#">
+                                        <a href="#" onclick="return false;">
                                             <i class="icon-lock"></i>
                                         </a>
                                     {% endif %}
@@ -67,7 +67,7 @@
                                             <i class="icon-chevron-down"></i>
                                         </a>
                                     {% else %}
-                                        <a href="#">
+                                        <a href="#" onclick="return false;">
                                             <i class="icon-lock"></i>
                                         </a>
                                     {% endif %}
@@ -119,19 +119,19 @@
                                             <i class="icon-chevron-up"></i>
                                         </a>
                                         {% else %}
-                                        <a href="#">
+                                        <a href="#" onclick="return false;">
                                             <i class="icon-lock"></i>
                                         </a>
                                         {% endif %}
                                         <div>
-                                        <h4 class="rating-table" style="font-family:Arial">{{ answer.rating }}</h4>
+                                        <h4 class="rating-table" style="color:black; font-family:Arial">{{ answer.rating }}</h4>
                                         </div>
                                         {% if user.id != answer.author_id and user.is_authenticated %}
                                         <a class="rating_button" href="#" data-votetype="-1" data-contenttype="a">
                                             <i class="icon-chevron-down"></i>
                                         </a>
                                         {% else %}
-                                        <a href="#">
+                                        <a href="#" onclick="return false;">
                                             <i class="icon-lock"></i>
                                         </a>
                                         {% endif %}
@@ -140,7 +140,7 @@
                                 </div>
                                 <div class="container-fluid span10">
                                     <div class="row-fluid correct_block" data-id="{{ answer.id }}">
-                                    <p style="margin: 5px 0 0 5px">{{ answer.contents }}</p>
+                                    <p style="margin: 5px 0 0 5px; color:black">{{ answer.contents }}</p>
 
                                         <div style="text-align: right">
 
@@ -150,7 +150,7 @@
                                             </a>
                                             {% endif %}
                                             <a href="answers?qnum={{ answer.question_id }}">Link to question</a>
-                                            <p> <strong>Answer by:</strong> <a href="users?num={{ answer.author.id }}">{{ answer.author }} </a></p>
+                                            <p style="color:black"> <strong>Answer by:</strong> <a href="users?num={{ answer.author.id }}">{{ answer.author }} </a></p>
                                             <p class="muted"> {{ answer.date }}</p>
                                         </div>
                                     </div>

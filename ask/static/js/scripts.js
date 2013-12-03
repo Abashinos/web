@@ -51,6 +51,8 @@ jQuery(Document).ready(function(){
     $.toast.config.closeForStickyOnly = false;
     $.toast.config.width = 300;
 
+
+
     $('.rating_button').click(function(){
 
         var c = $(this).parents(".content_block");

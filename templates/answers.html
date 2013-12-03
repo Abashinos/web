@@ -18,7 +18,7 @@
                                             <i class="icon-chevron-up"></i>
                                         </a>
                                     {% else %}
-                                        <a href="#">
+                                        <a href="#" onclick="return false;">
                                             <i class="icon-lock"></i>
                                         </a>
                                     {% endif %}
@@ -30,7 +30,7 @@
                                             <i class="icon-chevron-down"></i>
                                         </a>
                                     {% else %}
-                                        <a href="#">
+                                        <a href="#" onclick="return false;">
                                             <i class="icon-lock"></i>
                                         </a>
                                     {% endif %}
@@ -85,7 +85,7 @@
                 </div>
                 <p> <strong>Answers</strong> ({{ question.answer_set.count }}):</p>
                 {% for answer in answers %}
-                        <div class="content_block {% if answer.correct %} alert-success {% endif %}container-fluid table-bordered" data-id="{{ answer.id }}">
+                        <div class="content_block {% if answer.correct %} alert-success {% endif %}container-fluid table-bordered" data-id="{{ answer.id }}"  style="color:black" >
 
                                 <div class="container-fluid span2" style="text-align:center">
 
@@ -95,19 +95,19 @@
                                             <i class="icon-chevron-up"></i>
                                         </a>
                                         {% else %}
-                                        <a href="#">
+                                        <a href="#" onclick="return false;">
                                             <i class="icon-lock"></i>
                                         </a>
                                         {% endif %}
                                         <div>
-                                        <h4 class="rating-table" style="font-family:Arial">{{ answer.rating }}</h4>
+                                        <h4 class="rating-table" style="color:black; font-family:Arial">{{ answer.rating }}</h4>
                                         </div>
                                         {% if user.id != answer.author_id and user.is_authenticated %}
                                         <a class="rating_button" href="#" data-votetype="-1" data-contenttype="a">
                                             <i class="icon-chevron-down"></i>
                                         </a>
                                         {% else %}
-                                        <a href="#">
+                                        <a href="#" onclick="return false;">
                                             <i class="icon-lock"></i>
                                         </a>
                                         {% endif %}
